@@ -33,6 +33,7 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 import misc.params as params
 from student.measurements import Measurement
 
+
 class Track(object):
     """The Track class.
 
@@ -55,7 +56,7 @@ class Track(object):
         _M_rot = meas.sensor.sens_to_veh[0:3, 0:3]
         _R_sens = meas.R
         self.P[0:3, 0:3] = np.matmul(_M_rot @ _R_sens, _M_rot.T)
-        self.P[3:6, 3:6] = np.diag([params.sigma_p44**2, params.sigma_p55**2, params.sigma_p66**2])
+        self.P[3:6, 3:6] = np.diag([params.sigma_p44 ** 2, params.sigma_p55 ** 2, params.sigma_p66 ** 2])
         self.state = 'initialized'
         self.score = 1. / params.window
         self.id = _id
@@ -91,6 +92,7 @@ class Track(object):
             M_rot = meas.sensor.sens_to_veh
             self.yaw = np.arccos(M_rot[0, 0] * np.cos(meas.yaw) + M_rot[0, 1] * np.sin(meas.yaw))
 
+
 class TrackManagement(object):
     """The Track Management class."""
 
@@ -101,7 +103,8 @@ class TrackManagement(object):
         self.result_list = []
         self.last_id = -1
 
-    def manage_tracks(self, unassigned_tracks: List[Track], unassigned_meas: List[Measurement], meas_list: List[Measurement]):
+    def manage_tracks(self, unassigned_tracks: List[Track], unassigned_meas: List[Measurement],
+                      meas_list: List[Measurement]):
         """Runs the track management loop.
 
         Args:
@@ -118,11 +121,11 @@ class TrackManagement(object):
                     track.score = max(track.score, 0.)
                     if track.state == 'confirmed':
                         threshold = params.delete_threshold
-                    elif track.state in {'initialized', 'initialised', 'tentative'}:
+                    elif track.state in {'initialized', 'tentative'}:
                         threshold = params.delete_init_threshold
                     else:
                         raise ValueError(f"Invalid track state '{track.state}'")
-                    if track.score < threshold or track.P[0, 0] > params.max_P or track.P[1, 1] > params.max_P:
+                    if (track.score < threshold) or track.P[0,0] > params.max_P or track.P[1,1] > params.max_P:
                         tracks_to_delete.append(track)
                 else:
                     pass

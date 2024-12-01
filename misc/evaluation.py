@@ -35,7 +35,7 @@ def plot_tracks(fig, ax, ax2, track_list, meas_list, lidar_labels, lidar_labels_
 
     # plot tracks, measurements and ground truth in birds-eye view
     for track in track_list:
-        if state == None or track.state == state:  # plot e.g. only confirmed tracks
+        if state is None or track.state == state:  # plot e.g. only confirmed tracks
 
             # choose color according to track state
             if track.state == 'confirmed':
@@ -129,18 +129,18 @@ def plot_tracks(fig, ax, ax2, track_list, meas_list, lidar_labels, lidar_labels_
     # plot labels
     for label, valid in zip(lidar_labels, lidar_labels_valid):
         if valid:
-            ax.scatter(-1 * label.box.center_y, label.box.center_x, color='gray', s=80, marker='+',
+            ax.scatter(x=-1 * label.box.center_y, y=label.box.center_x, color='gray', s=80, marker='+',
                        label='ground truth')
     # plot measurements
     for meas in meas_list:
-        ax.scatter(-1 * meas.z[1], meas.z[0], color='blue', marker='.', label='measurement')
+        ax.scatter(x=-1 * meas.z[1], y=meas.z[0], color='blue', marker='.', label='measurement')
 
-    # maximize window        
+    # maximize window
     if plt.rcParams['backend'] == 'wxagg':
         mng = plt.get_current_fig_manager()
         mng.frame.Maximize(True)
 
-    # axis 
+    # axis
     ax.set_xlabel('y [m]')
     ax.set_ylabel('x [m]')
     ax.set_aspect('equal')
@@ -212,7 +212,7 @@ def plot_rmse(manager, all_labels, configs_det):
             ax.plot(time, rmse, marker='x', label='RMSE track ' + str(track_id) + '\n(mean: '
                                                   + '{:.2f}'.format(rmse_sum) + ')')
 
-    # maximize window     
+    # maximize window
     if plt.rcParams['backend'] == 'wxagg':
         mng = plt.get_current_fig_manager()
         mng.frame.Maximize(True)
