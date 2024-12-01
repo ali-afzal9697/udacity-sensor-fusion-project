@@ -1,0 +1,8 @@
+.github
+.idea
+dataset
+.pytype
+__pycache__
+tools/object_detection_models/darknet/pretrained/
+tools/object_detection_models/resnet/pretrained/
+results
