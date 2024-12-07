@@ -111,6 +111,7 @@ class Sensor(object):
         _p_veh = x[0:3]
         _p_veh = np.vstack([_p_veh, np.newaxis])
         _p_veh[3] = 1
+
         _p_sens = self.veh_to_sens @ _p_veh
         p_x, p_y, _ = _p_sens[0:3]
         if p_x == 0:

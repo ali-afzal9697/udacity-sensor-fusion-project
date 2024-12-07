@@ -2,8 +2,6 @@
 # Project "Multi-Target Tracking with Extended Kalman Filters and Sensor Fusion"
 # Copyright (C) 2020, Dr. Antje Muntzinger / Dr. Andreas Haja.
 #
-# Modified by : Jonathan L. Moran (jonathan.moran107@gmail.com)
-#
 # Purpose of this file: Define the `Track` and `TrackManagement` classes
 #                       and their core functionality, i.e., the track state,
 #                       track id, covariance matrices, and functions for
@@ -125,7 +123,7 @@ class TrackManagement(object):
                         threshold = params.delete_init_threshold
                     else:
                         raise ValueError(f"Invalid track state '{track.state}'")
-                    if (track.score < threshold) or track.P[0,0] > params.max_P or track.P[1,1] > params.max_P:
+                    if track.score < threshold or track.P[0,0] > params.max_P or track.P[1,1] > params.max_P:
                         tracks_to_delete.append(track)
                 else:
                     pass

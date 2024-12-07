@@ -52,6 +52,8 @@ def plot_tracks(fig, ax, ax2, track_list, meas_list, lidar_labels, lidar_labels_
             x = track.x[0]
             y = track.x[1]
             z = track.x[2]
+            if x < configs_det.lim_x[0] or x > configs_det.lim_x[1] or y < configs_det.lim_y[0] or y > configs_det.lim_y[1]:
+                continue
             yaw = track.yaw
 
             # plot boxes in top view
@@ -181,8 +183,8 @@ def plot_rmse(manager, all_labels, configs_det):
             if track_id not in result_dict:
                 continue
             track = result_dict[track_id]
-            if track.state != 'confirmed':
-                continue
+            # if track.state != 'confirmed':
+            #     continue
 
             # find closest label and calculate error at this timestamp
             min_error = np.inf
